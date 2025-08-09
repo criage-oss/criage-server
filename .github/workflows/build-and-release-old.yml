@@ -20,6 +20,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Checkout criage-client (for module dependency)
+        uses: actions/checkout@v4
+        with:
+          repository: criage-oss/criage-client
+          path: ../criage-client
+
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
@@ -73,6 +79,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Checkout criage-client (for module dependency)
+        uses: actions/checkout@v4
+        with:
+          repository: criage-oss/criage-client
+          path: ../criage-client
 
       - name: Set up Go
         uses: actions/setup-go@v4
@@ -176,9 +188,6 @@ jobs:
             - `GET /api/v1/download/{name}/{version}/{file}` - скачивание пакета
             - `POST /api/v1/upload` - загрузка пакета
             
-            ### Зависимости:
-            - [criage-common v${{ env.VERSION }}](https://github.com/criage-oss/criage-common) - общие типы и утилиты
-            
             Полная документация: https://criage.ru/repository-server.html
           draft: false
           prerelease: false
@@ -193,6 +202,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Checkout criage-client (for module dependency)
+        uses: actions/checkout@v4
+        with:
+          repository: criage-oss/criage-client
+          path: ../criage-client
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2

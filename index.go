@@ -12,7 +12,9 @@ import (
 	"strings"
 	"time"
 
-	"criage/pkg"
+	"github.com/criage-oss/criage-common/archive"
+	"github.com/criage-oss/criage-common/config"
+	"github.com/criage-oss/criage-common/types"
 )
 
 // IndexManager управляет индексом пакетов
@@ -163,10 +165,10 @@ func (im *IndexManager) addPackageFromFile(filePath string) error {
 }
 
 // extractMetadata извлекает метаданные из архива пакета
-func (im *IndexManager) extractMetadata(filePath string) (*pkg.PackageMetadata, error) {
+func (im *IndexManager) extractMetadata(filePath string) (*types.PackageMetadata, error) {
 	// Создаем архивный менеджер
-	config := pkg.DefaultConfig()
-	archiveManager, err := pkg.NewArchiveManager(config, "1.0.0")
+	cfg := config.DefaultConfig()
+	archiveManager, err := archive.NewManager(cfg, "1.0.0")
 	if err != nil {
 		return nil, err
 	}
@@ -196,12 +198,12 @@ func (im *IndexManager) addPackageFromFilename(filePath, checksum string, size i
 	}
 
 	// Создаем базовую структуру метаданных
-	metadata := &pkg.PackageMetadata{
-		PackageManifest: &pkg.PackageManifest{
+	metadata := &types.PackageMetadata{
+		PackageManifest: &types.PackageManifest{
 			Name:    name,
 			Version: version,
 		},
-		BuildManifest: &pkg.BuildManifest{
+		BuildManifest: &types.BuildManifest{
 			Name:    name,
 			Version: version,
 		},
@@ -238,7 +240,7 @@ func (im *IndexManager) parseFilename(filename string) (string, string, string, 
 }
 
 // addPackageToIndex добавляет пакет в индекс
-func (im *IndexManager) addPackageToIndex(metadata *pkg.PackageMetadata, filePath, checksum string, size int64, osName, arch, format string) error {
+func (im *IndexManager) addPackageToIndex(metadata *types.PackageMetadata, filePath, checksum string, size int64, osName, arch, format string) error {
 	if metadata.PackageManifest == nil {
 		return fmt.Errorf("package manifest is nil")
 	}

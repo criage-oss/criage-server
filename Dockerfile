@@ -7,9 +7,6 @@ RUN apk add --no-cache git ca-certificates
 # Создаем рабочую директорию
 WORKDIR /build
 
-# Клонируем criage-client для зависимости
-RUN git clone https://github.com/criage-oss/criage-client.git ../criage-client
-
 # Копируем go.mod и go.sum для кеширования зависимостей
 COPY go.mod go.sum ./
 
@@ -77,3 +74,4 @@ LABEL description="HTTP сервер репозитория пакетов Criag
 LABEL org.opencontainers.image.source="https://github.com/criage-oss/criage-server"
 LABEL org.opencontainers.image.documentation="https://criage.ru/repository-server.html"
 LABEL org.opencontainers.image.licenses="MIT"
+LABEL dependencies="criage-common@1.0.0"
