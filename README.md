@@ -391,8 +391,8 @@ Server logs all HTTP requests and package operations. Logs include:
 ### Building from Source
 
 ```bash
-git clone https://github.com/criage-oss/criage.git
-cd criage/repository
+git clone https://github.com/criage-oss/criage-server.git
+cd criage-server
 
 # Install dependencies
 go mod tidy
@@ -451,7 +451,7 @@ Run with debug logging:
 ## Support
 
 - 📧 Email: <support@criage.ru>
-- 🐛 Issues: <https://github.com/criage-oss/criage/issues>
+- 🐛 Issues: <https://github.com/criage-oss/criage-server/issues>
 - 📖 Documentation: <https://docs.criage.ru>
 
 ## License
