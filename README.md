@@ -391,7 +391,7 @@ Server logs all HTTP requests and package operations. Logs include:
 ### Building from Source
 
 ```bash
-git clone https://github.com/Zu-Krein/criage.git
+git clone https://github.com/criage-oss/criage.git
 cd criage/repository
 
 # Install dependencies
@@ -451,7 +451,7 @@ Run with debug logging:
 ## Support
 
 - 📧 Email: <support@criage.ru>
-- 🐛 Issues: <https://github.com/Zu-Krein/criage/issues>
+- 🐛 Issues: <https://github.com/criage-oss/criage/issues>
 - 📖 Documentation: <https://docs.criage.ru>
 
 ## License

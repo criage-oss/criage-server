@@ -3,8 +3,8 @@ version: 1.0.0
 description: "Criage Repository Server - сервер репозитория с поддержкой встроенной локализации"
 author: "Criage Team"
 license: MIT
-homepage: "https://github.com/criage/criage/tree/main/repository"
-repository: "https://github.com/criage/criage"
+homepage: "https://github.com/criage-oss/criage/tree/main/criage-server"
+repository: "https://github.com/criage-oss/criage"
 keywords:
   - repository-server
   - package-server
