@@ -3,7 +3,7 @@ module criage-repository
 go 1.24.4
 
 require (
-	github.com/criage-oss/criage-common v1.0.6
+	github.com/criage-oss/criage-common v1.0.7
 	github.com/gorilla/mux v1.8.1
 )
 
