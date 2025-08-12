@@ -1,4 +1,5 @@
 # Criage Repository Server
+[![Go Reference](https://pkg.go.dev/badge/github.com/criage-oss/criage-server.svg)](https://pkg.go.dev/github.com/criage-oss/criage-server)
 
 Repository server for storing and managing Criage packages.
 
