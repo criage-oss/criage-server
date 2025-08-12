@@ -43,8 +43,10 @@ func main() {
 		log.Fatalf("Failed to create index manager: %v", err)
 	}
 
+	// Получаем upload token из окружения
+	uploadToken := os.Getenv("CRIAGE_UPLOAD_TOKEN")
 	// Создаем API сервер
-	apiServer := NewApiServer(indexManager, config)
+	apiServer := NewApiServer(indexManager, config, uploadToken)
 
 	// Запускаем сервер
 	log.Fatal(apiServer.Start())
@@ -52,18 +54,21 @@ func main() {
 
 // loadConfig загружает конфигурацию из файла
 func loadConfig(configPath string) (*Config, error) {
-	// Создаем конфигурацию по умолчанию
+	// Конфигурация по умолчанию (соответствует common/config.ServerConfig)
 	config := &Config{
+		Host:        "0.0.0.0",
 		Port:        8080,
 		StoragePath: "./packages",
 		IndexPath:   "./index.json",
-		UploadToken: "your-secret-token",
+		AuthEnabled: false,
 		MaxFileSize: 100 * 1024 * 1024, // 100MB
 		AllowedFormats: []string{
 			"criage", "tar.zst", "tar.lz4", "tar.xz", "tar.gz", "zip",
 		},
-		EnableCORS: true,
-		LogLevel:   "info",
+		RateLimit:   0,
+		LogLevel:    "info",
+		CORSEnabled: true,
+		CORSOrigins: []string{"*"},
 	}
 
 	// Если файл конфигурации существует, загружаем его

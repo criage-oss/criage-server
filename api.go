@@ -20,14 +20,16 @@ type ApiServer struct {
 	indexManager *IndexManager
 	config       *Config
 	router       *mux.Router
+	uploadToken  string
 }
 
 // NewApiServer создает новый API сервер
-func NewApiServer(indexManager *IndexManager, config *Config) *ApiServer {
+func NewApiServer(indexManager *IndexManager, config *Config, uploadToken string) *ApiServer {
 	server := &ApiServer{
 		indexManager: indexManager,
 		config:       config,
 		router:       mux.NewRouter(),
+		uploadToken:  uploadToken,
 	}
 
 	server.setupRoutes()
@@ -37,7 +39,7 @@ func NewApiServer(indexManager *IndexManager, config *Config) *ApiServer {
 // setupRoutes настраивает маршруты API
 func (s *ApiServer) setupRoutes() {
 	// Middleware для CORS если включен
-	if s.config.EnableCORS {
+	if s.config.CORSEnabled {
 		s.router.Use(s.corsMiddleware)
 	}
 
@@ -291,7 +293,13 @@ func (s *ApiServer) handleDownload(w http.ResponseWriter, r *http.Request) {
 func (s *ApiServer) handleUpload(w http.ResponseWriter, r *http.Request) {
 	// Проверяем токен
 	token := r.Header.Get("Authorization")
-	if token != "Bearer "+s.config.UploadToken {
+	if s.config.AuthEnabled {
+		expected := "Bearer " + strings.TrimSpace(s.uploadToken)
+		if strings.TrimSpace(s.uploadToken) == "" || token != expected {
+			s.sendJSONResponse(w, http.StatusUnauthorized, false, nil, "Invalid token")
+			return
+		}
+	} else if token == "" || strings.TrimSpace(token) == "Bearer" {
 		s.sendJSONResponse(w, http.StatusUnauthorized, false, nil, "Invalid token")
 		return
 	}
@@ -356,7 +364,13 @@ func (s *ApiServer) handleUpload(w http.ResponseWriter, r *http.Request) {
 func (s *ApiServer) handleRefreshIndex(w http.ResponseWriter, r *http.Request) {
 	// Проверяем токен
 	token := r.Header.Get("Authorization")
-	if token != "Bearer "+s.config.UploadToken {
+	if s.config.AuthEnabled {
+		expected := "Bearer " + strings.TrimSpace(s.uploadToken)
+		if strings.TrimSpace(s.uploadToken) == "" || token != expected {
+			s.sendJSONResponse(w, http.StatusUnauthorized, false, nil, "Invalid token")
+			return
+		}
+	} else if token == "" || strings.TrimSpace(token) == "Bearer" {
 		s.sendJSONResponse(w, http.StatusUnauthorized, false, nil, "Invalid token")
 		return
 	}
