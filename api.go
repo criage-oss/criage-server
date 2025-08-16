@@ -413,7 +413,9 @@ func (s *ApiServer) sendJSONResponse(w http.ResponseWriter, statusCode int, succ
 		response.Error = message
 	}
 
-	json.NewEncoder(w).Encode(response)
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		log.Printf("Error encoding JSON response: %v", err)
+	}
 }
 
 // Start запускает HTTP сервер
